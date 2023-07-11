@@ -202,7 +202,7 @@ def run_loop(saved_params_dir=None):
     metrics, progress, model_params = train_test_val(args, timestamp, device=device, saved_params_dir=saved_params_dir)
     logging.info('FINAL TEST METRICS')
     logging.info('%s', metrics)
-    save_data(args, metrics, model_params, progress, timestamp)
+    #save_data(args, metrics, model_params, progress, timestamp)
 
 
 if __name__ == '__main__':

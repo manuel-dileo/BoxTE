@@ -76,6 +76,8 @@ def parse_args(args):
                        help="Weight given to the temporal regularizer, if enabled.")
     parser.add_argument('--ball_reg_weight', default=0.01, type=float,
                         help="Weight given to the ball regularizer, if enabled.")
+    parser.add_argument('--time_reg_norm', default='Np', type=str,
+                        help="Time regularizer norm, Np or Lp")
     parser.add_argument('--time_reg_order', default=4, type=int,
                         help="Order ('p') of time regularizer norm.")
     parser.add_argument('--ball_reg_order', default=4, type=int,

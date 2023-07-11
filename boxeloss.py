@@ -12,6 +12,7 @@ class BoxELoss():
         self.ball_reg_weight = args.ball_reg_weight
         self.time_reg_order = args.time_reg_order
         self.ball_reg_order = args.ball_reg_order
+        self.time_reg_norm = args.time_reg_norm
         if args.loss_type in ['uniform', 'u']:
             self.loss_fn = uniform_loss
             self.fn_kwargs = {'gamma': args.margin, 'w': 1.0 / args.num_negative_samples}
@@ -41,7 +42,12 @@ class BoxELoss():
         # max_time, nb_timebumps, embedding_dim = time_bumps.shape
         time_bumps = time_bumps.transpose(0, 1)
         diffs = self.diff_matrix.matmul(time_bumps)
-        return (torch.linalg.norm(diffs, ord=norm_ord, dim=2) ** norm_ord).mean()
+        if self.time_reg_norm == 'Lp':
+            return torch.linalg.norm(diffs, ord=norm_ord, dim=2).mean()
+        elif self.time_reg_norm == 'Np':
+            return (torch.linalg.norm(diffs, ord=norm_ord, dim=2) ** norm_ord).mean()
+        else:
+            raise Exception(f'Time norm {self.time_norm} not implemented')
 
     def ball_reg(self, entities, relations, norm_ord=4):
         """Regulariser inspired by the paper 'ChronoR: Rotation Based Temporal Knowledge Graph Embedding',
