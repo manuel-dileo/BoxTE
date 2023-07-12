@@ -94,11 +94,11 @@ def main(argv):
     if is_slurm:
         header = f"""#!/usr/bin/env bash
 
-#SBATCH --output=/home/%u/slogs/tntcomplex-%A_%a.out
-#SBATCH --error=/home/%u/slogs/tntcomplex-%A_%a.err
+#SBATCH --output=/home/%u/slogs/BoxTE-%A_%a.out
+#SBATCH --error=/home/%u/slogs/BoxTE-%A_%a.err
 #SBATCH --partition=PGR-Standard
 #SBATCH --gres=gpu:1
-#SBATCH --mem=14GB # memory
+#SBATCH --mem=20GB # memory
 #SBATCH --cpus-per-task=4 # number of cpus to use - there are 32 on each node.
 #SBATCH -t 6:00:00 # time requested in hours:minutes:seconds
 #SBATCH --array 1-{nb_jobs}
@@ -112,7 +112,7 @@ conda activate mypt
 export LANG="en_US.utf8"
 export LANGUAGE="en_US:en"
 
-cd $HOME/projects/tntcomplex/tkbc/scripts
+cd $HOME/projects/BoxTE/scripts
 
 """
 
