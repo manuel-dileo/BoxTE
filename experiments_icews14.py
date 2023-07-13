@@ -50,7 +50,16 @@ def main(argv):
             time_reg_order=[1, 2, 3, 4, 5],
         )]
 
-    configurations = list(cartesian_product(hyp_space[int(argv[0])]))
+    hyp_space2 = dict(
+        embedding_dim=[2000],
+        time_reg_weight = [1, 1e-1, 1e-2, 1e-3, 1e-4],
+        time_reg_norm = ['Np'],
+        time_reg_order = [1, 2, 3, 4, 5],
+    )
+
+    configurations = list(cartesian_product(hyp_space2))
+
+    #configurations = list(cartesian_product(hyp_space[int(argv[0])]))
 
     path = 'logs/icews14'
     path_from_here = 'scripts/logs/icews14'
