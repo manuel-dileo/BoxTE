@@ -38,18 +38,19 @@ def to_logfile(c, path):
 
 def main(argv):
     hyp_space = [dict(
-        embedding_dim=[5, 25, 50, 100, 500, 2000],
+        embedding_dim=[5, 25, 50, 100, 500],
         time_reg_weight=[1, 1e-1, 1e-2, 1e-3, 1e-4],
         time_reg_norm=['Lp'],
         time_reg_order=[1, 2, 3, 4, 5],
     ),
         dict(
-            embedding_dim=[5, 25, 50, 100, 500, 2000],
+            embedding_dim=[5, 25, 50, 100, 500],
             time_reg_weight=[1, 1e-1, 1e-2, 1e-3, 1e-4],
             time_reg_norm=['Np'],
             time_reg_order=[1, 2, 3, 4, 5],
         )]
 
+    """
     hyp_space2 = dict(
         embedding_dim=[2000],
         time_reg_weight = [1, 1e-1, 1e-2, 1e-3, 1e-4],
@@ -58,8 +59,9 @@ def main(argv):
     )
 
     configurations = list(cartesian_product(hyp_space2))
+    """
 
-    #configurations = list(cartesian_product(hyp_space[int(argv[0])]))
+    configurations = list(cartesian_product(hyp_space[int(argv[0])]))
 
     path = 'logs/icews14'
     path_from_here = 'scripts/logs/icews14'
