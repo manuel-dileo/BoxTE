@@ -95,7 +95,7 @@ def main(argv):
     nb_jobs = len(sorted_command_lines)
 
     try:
-        is_slurm = bool(argv[1])
+        is_slurm = eval(argv[1])
     except Exception:
         is_slurm = True
 
