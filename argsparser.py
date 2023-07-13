@@ -37,6 +37,8 @@ def parse_args(args):
                         help='Number of training epochs.')
     parser.add_argument('--batch_size', default=128, type=int,
                         help='Size of a training batches.')
+    parser.add_argument('--grad_accum', default=128, type=int,
+                        help='Gradient accumulation steps')
     parser.add_argument('--embedding_dim', default=300, type=int,
                         help='Dimensionality of the embedding space.')
     parser.add_argument('--learning_rate', default=.0001, type=float,

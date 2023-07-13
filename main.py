@@ -51,6 +51,7 @@ def train_validate(kg, trainloader, valloader, model, loss_fn, optimizer, args, 
     loss_progress = []
     validation_progress = []
     timer = timing.ExecutionTimer()
+    accum_iter = args.grad_accum
     if args.time_execution:
         timer.activate()
     for i_epoch in range(args.num_epochs):
@@ -59,7 +60,7 @@ def train_validate(kg, trainloader, valloader, model, loss_fn, optimizer, args, 
         epoch_losses = []
         for i_batch, data in enumerate(trainloader):
             data = torch.stack(data).to(device).unsqueeze(0)
-            optimizer.zero_grad()
+            #optimizer.zero_grad()
             timer.log('start_neg_sampling')
             negatives = kg.sample_negatives(data, args.num_negative_samples, args.neg_sampling_type, args.neg_sample_what)
             timer.log('end_neg_sampling')
@@ -73,13 +74,20 @@ def train_validate(kg, trainloader, valloader, model, loss_fn, optimizer, args, 
             if not loss.isfinite():
                 logging.warning('Loss is {}. Skipping to next mini batch.'.format(loss.item()))
                 continue
+            #normalize loss to account for gradient accumulation
+            loss = loss / accum_iter
             epoch_losses.append(loss.item())
             timer.log('start_backward')
             loss.backward()
             timer.log('end_backward')
             if args.gradient_clipping > 0:
                 torch.nn.utils.clip_grad_norm_(model.parameters(), args.gradient_clipping)
-            optimizer.step()
+            
+            #gradient accumulation
+            if ((i_batch + 1) % accum_iter == 0) or (i_batch + 1 == len(trainloader)):
+                optimizer.step()
+                optimizer.zero_grad()
+                
         timer.log('end_epoch')
         loss_progress.append(np.mean(epoch_losses))
         if args.print_loss_step > 0 and i_epoch % args.print_loss_step == 0:
