@@ -23,7 +23,8 @@ def to_cmd(c, _path=None):
         f'--train_path ../datasets/ICEWS05-15/train.txt '\
         f'--valid_path ../datasets/ICEWS05-15/valid.txt '\
         f'--test_path ../datasets/ICEWS05-15/test.txt '\
-        f'--learning_rate 0.001 --num_negative_samples=75 --loss_type=ce --batch_size=512 --metrics_batch_size=128 '\
+        f'--learning_rate 0.001 --num_negative_samples=75 --loss_type=ce '\
+        f'--batch_size=1 --metrics_batch_size=-1 --grad_accum 512 '\
         f'--validation_step=100 --neg_sampling_type=d --num_epochs=300 --print_loss_step=10 --model_variant=BoxTE '\
         f'--norm_embeddings --nb_timebumps=5 --use_r_factor --no_initial_validation --use_time_reg '\
         f'--embedding_dim {c["embedding_dim"]} --time_reg_weight {c["time_reg_weight"]} --time_reg_norm {c["time_reg_norm"]} '\
@@ -37,18 +38,20 @@ def to_logfile(c, path):
 
 
 def main(argv):
-    hyp_space = [dict(
-        embedding_dim=[5, 25, 50, 100, 500, 2000],
-        time_reg_weight=[1, 1e-1, 1e-2, 1e-3, 1e-4],
-        time_reg_norm=['Lp'],
-        time_reg_order=[1, 2, 3, 4, 5],
-    ),
+    hyp_space = [
         dict(
-            embedding_dim=[5, 25, 50, 100, 500, 2000],
+            embedding_dim=[5, 25, 50, 100, 500],
             time_reg_weight=[1, 1e-1, 1e-2, 1e-3, 1e-4],
-            time_reg_norm=['Np'],
+            time_reg_norm=['Lp', 'Np'],
             time_reg_order=[1, 2, 3, 4, 5],
-        )]
+        ),
+        dict(
+            embedding_dim=[2000],
+            time_reg_weight=[1, 1e-1, 1e-2, 1e-3, 1e-4],
+            time_reg_norm=['Np', 'Lp'],
+            time_reg_order=[1, 2, 3, 4, 5],
+        ),
+    ]
 
     configurations = list(cartesian_product(hyp_space[int(argv[0])]))
 
