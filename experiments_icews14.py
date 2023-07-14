@@ -19,16 +19,28 @@ def summary(configuration):
 
 
 def to_cmd(c, _path=None):
-    command = f'PYTHONPATH=. python3 ../main.py '\
-        f'--train_path ../datasets/ICEWS14/train.txt '\
-        f'--valid_path ../datasets/ICEWS14/valid.txt '\
-        f'--test_path ../datasets/ICEWS14/test.txt '\
-        f'--learning_rate 0.001 --num_negative_samples=75 --loss_type=ce '\
-        f'--batch_size 1 --metrics_batch_size -1 --grad_accum 256 '\
-        f'--validation_step=100 --neg_sampling_type=d --num_epochs=300 --print_loss_step=10 --model_variant=BoxTE '\
-        f'--norm_embeddings --nb_timebumps=2 --use_r_factor --no_initial_validation --use_time_reg '\
-        f'--embedding_dim {c["embedding_dim"]} --time_reg_weight {c["time_reg_weight"]} --time_reg_norm {c["time_reg_norm"]} '\
-        f'--time_reg_order {c["time_reg_order"]}'
+    if c['embedding_dim'] <= 500:
+        command = f'PYTHONPATH=. python3 ../main.py '\
+            f'--train_path ../datasets/GDELT/train.txt '\
+            f'--valid_path ../datasets/GDELT/valid.txt '\
+            f'--test_path ../datasets/GDELT/test.txt '\
+            f'--learning_rate 0.001 --num_negative_samples=75 --loss_type=ce '\
+            f'--batch_size=1 --metrics_batch_size=-1 --grad_accum 256 '\
+            f'--validation_step=10 --neg_sampling_type=d --num_epochs=100 --print_loss_step=10 --model_variant=BoxTE '\
+            f'--norm_embeddings --nb_timebumps=5 --use_r_factor --no_initial_validation --use_time_reg '\
+            f'--embedding_dim {c["embedding_dim"]} --time_reg_weight {c["time_reg_weight"]} --time_reg_norm {c["time_reg_norm"]} '\
+            f'--time_reg_order {c["time_reg_order"]}'
+    else:
+        command = f'PYTHONPATH=. python3 ../main.py ' \
+            f'--train_path ../datasets/GDELT/train.txt ' \
+            f'--valid_path ../datasets/GDELT/valid.txt ' \
+            f'--test_path ../datasets/GDELT/test.txt ' \
+            f'--learning_rate 0.001 --num_negative_samples=75 --loss_type=ce ' \
+            f'--batch_size=1 --metrics_batch_size=-1 --grad_accum 256 ' \
+            f'--validation_step=10 --neg_sampling_type=d --num_epochs=30 --print_loss_step=10 --model_variant=BoxTE ' \
+            f'--norm_embeddings --nb_timebumps=5 --use_r_factor --no_initial_validation --use_time_reg ' \
+            f'--embedding_dim {c["embedding_dim"]} --time_reg_weight {c["time_reg_weight"]} --time_reg_norm {c["time_reg_norm"]} ' \
+            f'--time_reg_order {c["time_reg_order"]}'
     return command
 
 
