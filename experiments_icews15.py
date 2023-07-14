@@ -21,9 +21,9 @@ def summary(configuration):
 def to_cmd(c, _path=None):
     if c['embedding_dim'] <= 500:
         command = f'PYTHONPATH=. python3 ../main.py '\
-            f'--train_path ../datasets/GDELT/train.txt '\
-            f'--valid_path ../datasets/GDELT/valid.txt '\
-            f'--test_path ../datasets/GDELT/test.txt '\
+            f'--train_path ../datasets/ICEWS05-15/train.txt '\
+            f'--valid_path ../datasets/ICEWS05-15/valid.txt '\
+            f'--test_path ../datasets/ICEWS05-15/test.txt '\
             f'--learning_rate 0.001 --num_negative_samples=75 --loss_type=ce '\
             f'--batch_size=1 --metrics_batch_size=-1 --grad_accum 256 '\
             f'--validation_step=10 --neg_sampling_type=d --num_epochs=100 --print_loss_step=10 --model_variant=BoxTE '\
@@ -32,9 +32,9 @@ def to_cmd(c, _path=None):
             f'--time_reg_order {c["time_reg_order"]}'
     else:
         command = f'PYTHONPATH=. python3 ../main.py ' \
-            f'--train_path ../datasets/GDELT/train.txt ' \
-            f'--valid_path ../datasets/GDELT/valid.txt ' \
-            f'--test_path ../datasets/GDELT/test.txt ' \
+            f'--train_path ../datasets/ICEWS05-15/train.txt ' \
+            f'--valid_path ../datasets/ICEWS05-15/valid.txt ' \
+            f'--test_path ../datasets/ICEWS05-15/test.txt ' \
             f'--learning_rate 0.001 --num_negative_samples=75 --loss_type=ce ' \
             f'--batch_size=1 --metrics_batch_size=-1 --grad_accum 256 ' \
             f'--validation_step=10 --neg_sampling_type=d --num_epochs=30 --print_loss_step=10 --model_variant=BoxTE ' \
