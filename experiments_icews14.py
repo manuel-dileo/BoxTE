@@ -58,7 +58,7 @@ def main(argv):
         time_reg_order=[1, 2, 3, 4, 5],
     ),
         dict(
-            embedding_dim=[2000],
+            embedding_dim=[1000],
             time_reg_weight=[1, 1e-1, 1e-2, 1e-3, 1e-4],
             time_reg_norm=['Np','Lp'],
             time_reg_order=[1, 2, 3, 4, 5],
