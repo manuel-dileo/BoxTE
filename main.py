@@ -44,7 +44,7 @@ def instantiate_model(args, kg, device):
     return model
 
 
-def train_validate(kg, trainloader, valloader, model, loss_fn, optimizer, args, timestamp, device='cpu'):
+def train_validate(kg, trainloader, valloader, testloader, model, loss_fn, optimizer, args, timestamp, device='cpu'):
     logging.info('training started')
     best_mrr = -1
     best_params = None
@@ -106,6 +106,10 @@ def train_validate(kg, trainloader, valloader, model, loss_fn, optimizer, args, 
                 best_mrr = metrics['mrr']
                 best_params = copy.deepcopy(model.state_dict())
                 #save_params(args, best_params, timestamp)
+            test_metrics = test(kg, testloader, model, args, device=device,
+                                corrupt_triples_batch_size=args.metrics_batch_size)
+            logging.info('TEST METRICS: {}'.format(test_metrics))
+
     logging.info('final validation')
     timer.log('start_validation')
     metrics = test(kg, valloader, model, args, device=device, corrupt_triples_batch_size=args.metrics_batch_size)
@@ -167,7 +171,7 @@ def train_test_val(args, timestamp, device='cpu', saved_params_dir=None):
     else:
         loss_fn = BoxELoss(args, device=device)
 
-    best_params, best_mrr, progress = train_validate(kg, trainloader, valloader, model, loss_fn, optimizer, args,
+    best_params, best_mrr, progress = train_validate(kg, trainloader, valloader, testloader, model, loss_fn, optimizer, args,
                                                      timestamp, device=device)
     if best_params is not None:
         model.load_state_dict(best_params)
