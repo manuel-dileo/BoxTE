@@ -106,9 +106,8 @@ def train_validate(kg, trainloader, valloader, testloader, model, loss_fn, optim
                 best_mrr = metrics['mrr']
                 best_params = copy.deepcopy(model.state_dict())
                 #save_params(args, best_params, timestamp)
-            test_metrics = test(kg, testloader, model, args, device=device,
-                                corrupt_triples_batch_size=args.metrics_batch_size)
-            logging.info('TEST METRICS: {}'.format(test_metrics))
+        test_metrics = test(kg, testloader, model, args, device=device, corrupt_triples_batch_size=args.metrics_batch_size)
+        logging.info('TEST METRICS: {}'.format(test_metrics))
 
     logging.info('final validation')
     timer.log('start_validation')
