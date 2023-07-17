@@ -71,7 +71,7 @@ def main(argv):
         if os.path.isfile(logfilefromhere):
             with open(logfilefromhere, 'r', encoding='utf-8', errors='ignore') as f:
                 content = f.read()
-                completed = 'FINAL TEST METRICS' in content
+                completed = 'TEST METRICS' in content
 
         if not completed:
             cmd = to_cmd(cfg)
