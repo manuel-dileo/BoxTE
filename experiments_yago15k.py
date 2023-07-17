@@ -21,9 +21,9 @@ def summary(configuration):
 def to_cmd(c, _path=None):
     if c["embedding_dim"] <= 500:
         command = f'PYTHONPATH=. python3 ../main.py '\
-            f'--train_path ../datasets/YAGO15K/train.txt '\
-            f'--valid_path ../datasets/YAGO15K/valid.txt '\
-            f'--test_path ../datasets/YAGO15K/test.txt '\
+            f'--train_path ../datasets/YAGO15K/train_unfolded_dynamic.txt '\
+            f'--valid_path ../datasets/YAGO15K/valid_unfolded_dynamic.txt '\
+            f'--test_path ../datasets/YAGO15K/test_unfolded_dynamic.txt '\
             f'--learning_rate 0.001 --num_negative_samples=75 --loss_type=ce '\
             f'--batch_size=1 --metrics_batch_size=-1 --grad_accum 128 '\
             f'--validation_step=10 --neg_sampling_type=d --num_epochs=100 --print_loss_step=10 --model_variant=BoxTE '\
