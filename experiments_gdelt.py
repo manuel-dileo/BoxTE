@@ -45,7 +45,7 @@ def to_cmd(c, _path=None):
 
 
 def to_logfile(c, path):
-    outfile = "{}/icews15.{}.log".format(path, summary(c).replace("/", "_")) #change here for other datasets
+    outfile = "{}/gdelt.{}.log".format(path, summary(c).replace("/", "_")) #change here for other datasets
     return outfile
 
 
@@ -67,8 +67,8 @@ def main(argv):
 
     configurations = list(cartesian_product(hyp_space[int(argv[0])]))
 
-    path = 'logs/icews15'
-    path_from_here = 'scripts/logs/icews15'
+    path = 'logs/gdelt'
+    path_from_here = 'scripts/logs/gdelt'
 
     # If the folder that will contain logs does not exist, create it
     #if not os.path.exists(path):
